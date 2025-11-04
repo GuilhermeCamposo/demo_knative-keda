@@ -1,5 +1,5 @@
-- hosts: localhost
-  name: Install Serverless Demo
+- name: Install Serverless Demo
+  hosts: localhost
   vars:
     delete_demo: false
     verify_tls: false
@@ -23,34 +23,18 @@
       ansible.builtin.set_fact:
         route_subdomain: "apps.{{ domain }}"
 
-    - name: Evaluate Namespace {{ kafka_project }}
+    - name: Evaluate Namespaces
+      loop:
+        - "{{ kafka_project }}"
+        - "{{ eventing_project }}"
+        - "{{ functions_project }}"
       kubernetes.core.k8s:
         api_key: '{{ token }}'
         host: '{{ server }}'
         validate_certs: false
         api_version: v1
         kind: Namespace
-        name: '{{ kafka_project }}'
-        state: present
-
-    - name: Evaluate Namespace {{ eventing_project }}
-      kubernetes.core.k8s:
-        api_key: '{{ token }}'
-        host: '{{ server }}'
-        validate_certs: false
-        api_version: v1
-        kind: Namespace
-        name: '{{ eventing_project }}'
-        state: present
-
-    - name: Evaluate Namespace {{ functions_project }}
-      kubernetes.core.k8s:
-        api_key: '{{ token }}'
-        host: '{{ server }}'
-        validate_certs: false
-        api_version: v1
-        kind: Namespace
-        name: '{{ functions_project }}'
+        name: '{{ item }}'
         state: present
 
     - name: Include Tekton
@@ -65,22 +49,14 @@
       ansible.builtin.include_role:
         name: knative
 
-    - name: Include Camel K
-      ansible.builtin.include_role:
-        name: camel-k
-
     - name: Include keda-demo
       ansible.builtin.include_role:
-        name: keda-demo
+        name: demo-keda
 
     - name: Include broker-demo
       ansible.builtin.include_role:
-        name: broker-demo
+        name: demo-broker
 
     - name: Include channel-demo
       ansible.builtin.include_role:
-        name: channel-demo
-
-    - name: Include kafka-ui
-      ansible.builtin.include_role:
-        name: kafka-ui
+        name: demo-channel

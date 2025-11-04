@@ -36,7 +36,7 @@
         name: serverless-operator
         namespace: openshift-serverless
       spec:
-        channel: stable
+        channel: stable-1.36
         installPlanApproval: Automatic
         name: serverless-operator
         source: redhat-operators
@@ -85,21 +85,6 @@
     state: present
     resource_definition: "{{ lookup('file', 'knative-serving.yml') }}"
   register: _serving
-  retries: 10
-  delay: 10
-  until: not _serving.failed
-
-- name: Evaluate ClusterTasks
-  kubernetes.core.k8s:
-    api_key: '{{ token }}'
-    host: '{{ server }}'
-    validate_certs: '{{ verify_tls }}'
-    state: present
-    resource_definition: "{{ lookup('file', item) }}"
-  register: _serving
-  loop:
-    - func-s2i.yaml
-    - func-deploy.yaml
   retries: 10
   delay: 10
   until: not _serving.failed

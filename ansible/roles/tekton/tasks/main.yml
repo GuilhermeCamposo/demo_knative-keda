@@ -48,3 +48,18 @@
   until:
     - crd_result.resources is defined
     - crd_result.resources | length > 0
+
+- name: Evaluate ClusterTasks
+  kubernetes.core.k8s:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: '{{ verify_tls }}'
+    state: present
+    resource_definition: "{{ lookup('file', item) }}"
+  register: _serving
+  loop:
+    - func-s2i.yaml
+    - func-deploy.yaml
+  retries: 10
+  delay: 10
+  until: not _serving.failed
