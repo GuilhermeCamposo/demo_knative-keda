@@ -1,10 +1,7 @@
 apiVersion: sources.knative.dev/v1beta1
 kind: KafkaSource
 metadata:
-  annotations:
-    openshift.io/generated-by: OpenShiftWebConsole
   name: kafka-source
-  generation: 2
   labels:
     app: kafka-source
     app.kubernetes.io/component: kafka-source
@@ -13,7 +10,7 @@ metadata:
     app.kubernetes.io/part-of: channel-demo
 spec:
   bootstrapServers:
-    - 'my-cluster-kafka-bootstrap.kafka-server.svc:9092'
+    - '{{ kafka_cluster_name }}-kafka-bootstrap.{{ kafka_ns }}.svc:9092'
   consumerGroup: knative-group
   consumers: 4
   initialOffset: latest

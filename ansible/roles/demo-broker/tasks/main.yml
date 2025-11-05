@@ -24,26 +24,6 @@
     - 2.2-topic-external.yml.j2
     - 5-broker-source.yml.j2
 
-- name: Log in as super user with token on OpenShift 4
-  ansible.builtin.command: "oc login --token={{ token }}  --server={{ server }} --insecure-skip-tls-verify={{ insecure_skip_tls_verify }}"
-  when:
-    - token is defined
-    - token is not none
-    - token|trim() != ""
-  ignore_errors: false
-  register: my_output
-  changed_when: my_output.rc != 0
-
-# - name: Create Services
-#   ansible.builtin.command: |
-#       kn service create {{ item }} --image quay.io/openshift-knative/knative-eventing-sources-event-display
-#        --label app.kubernetes.io/part-of=broker-demo -n eventing-demo
-#   loop:
-#     - kafka-display
-#     - ping-display
-#   register: my_output
-#   changed_when: my_output.rc != 0
-
 - name: Evaluate broker-demo Manisfests
   kubernetes.core.k8s:
     api_key: '{{ token }}'
@@ -60,3 +40,37 @@
     - 3-eventing-broker.yml
     - kafka-source-trigger.yml
     - ping-trigger.yml
+
+- name: Get kn Service
+  kubernetes.core.k8s_info:
+    api_key: '{{ token }}'
+    host: '{{ server }}'
+    validate_certs: false
+    kind: Service
+    name: kafka-display
+    namespace: '{{ eventing_ns }}'
+    api_version: serving.knative.dev/v1
+  register: demo_broker_r_service
+
+- name: Create kn Services
+  when: demo_broker_r_service is not defined
+  block:
+    - name: Log in as super user with token on OpenShift 4
+      ansible.builtin.command: "oc login --token={{ token }}  --server={{ server }} --insecure-skip-tls-verify={{ insecure_skip_tls_verify }}"
+      when:
+        - token is defined
+        - token is not none
+        - token|trim() != ""
+      ignore_errors: false
+      register: my_output
+      changed_when: my_output.rc != 0
+
+    - name: Create Services
+      ansible.builtin.command: |
+          kn service create {{ item }} --image quay.io/openshift-knative/knative-eventing-sources-event-display
+          --label app.kubernetes.io/part-of=broker-demo -n eventing-demo
+      loop:
+        - kafka-display
+        - ping-display
+      register: my_output
+      changed_when: my_output.rc != 0

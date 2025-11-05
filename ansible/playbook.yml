@@ -58,6 +58,6 @@
       ansible.builtin.include_role:
         name: demo-broker
 
-    # - name: Include channel-demo
-    #   ansible.builtin.include_role:
-    #     name: demo-channel
+    - name: Include channel-demo
+      ansible.builtin.include_role:
+        name: demo-channel

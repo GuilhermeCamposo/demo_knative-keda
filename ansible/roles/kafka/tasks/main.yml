@@ -46,10 +46,10 @@
       - rht.subcomp=cluster-operator
     field_selectors:
       - status.phase=Running
-  register: r_streams_pod
+  register: kafka_r_pod
   retries: 10
   delay: 10
-  until: r_streams_pod.resources | list | length == 1
+  until: kafka_r_pod.resources | list | length == 1
 
 - name: Evaluate Cluster ConfigMap
   kubernetes.core.k8s:
@@ -81,7 +81,7 @@
       - status.phase=Running
     label_selectors:
       - strimzi.io/component-type=kafka-exporter
-  register: r_streams_pod
+  register: kafka_r_pod
   retries: 20
   delay: 10
-  until: r_streams_pod.resources | list | length == 1
+  until: kafka_r_pod.resources | list | length == 1

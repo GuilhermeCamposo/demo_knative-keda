@@ -1,12 +1,7 @@
 apiVersion: messaging.knative.dev/v1beta1
 kind: KafkaChannel
 metadata:
-  annotations:
-    messaging.knative.dev/subscribable: v1
-    openshift.io/generated-by: OpenShiftWebConsole
   name: kafka-channel
-  finalizers:
-    - kafkachannels.messaging.knative.dev
   labels:
     app: kafka-channel
     app.kubernetes.io/component: kafka-channel

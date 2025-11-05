@@ -13,7 +13,7 @@ metadata:
 spec:
   consumerGroup: knative-group
   bootstrapServers:
-    - my-cluster-kafka-bootstrap.keda-knative:9092
+    - {{ kafka_cluster_name }}-kafka-bootstrap.keda-knative:9092
   topics:
     - my-topic
   sink:

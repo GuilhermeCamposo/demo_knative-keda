@@ -7,14 +7,14 @@ spec:
   broker:
     defaultConfig:
       authSecretName: ''
-      bootstrapServers: 'my-cluster-kafka-bootstrap.kafka-server.svc.cluster.local:9092'
+      bootstrapServers: '{{ kafka_cluster_name }}-kafka-bootstrap.{{ kafka_ns }}.svc.cluster.local:9092'
       numPartitions: 10
       replicationFactor: 3
     enabled: true
   channel:
     authSecretName: ''
     authSecretNamespace: ''
-    bootstrapServers: 'my-cluster-kafka-bootstrap.kafka-server.svc.cluster.local:9092'
+    bootstrapServers: '{{ kafka_cluster_name }}-kafka-bootstrap.{{ kafka_ns }}.svc.cluster.local:9092'
     enabled: true
   high-availability:
     replicas: 1

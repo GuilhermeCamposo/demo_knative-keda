@@ -2,7 +2,7 @@ apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
   labels:
-    strimzi.io/cluster: my-cluster
+    strimzi.io/cluster: {{ kafka_cluster_name }}
   name: eventing.demo.topic
 spec:
   config: {}
