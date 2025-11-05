@@ -25,9 +25,8 @@ oc create -f load-job.yml -n amq-streams
 
 image::img/eventing-channel.png[Eventing Channel]
 
-To activate the services and start sending messages just create `camel-source.yml` or/and `channel-ping-source.yml`.
+To activate the services and start sending messages just create a `channel-ping-source.yml`.
 
 ----
-oc create -f camel-source.yml -n eventing-demo
 oc create -f channel-ping-source.yml -n eventing-demo
 ----
