@@ -53,7 +53,7 @@
   register: demo_broker_r_service
 
 - name: Create kn Services
-  when: demo_broker_r_service is not defined
+  when: demo_broker_r_service.resources | length == 0
   block:
     - name: Log in as super user with token on OpenShift 4
       ansible.builtin.command: "oc login --token={{ token }}  --server={{ server }} --insecure-skip-tls-verify={{ insecure_skip_tls_verify }}"

@@ -48,7 +48,7 @@
   register: demo_channel_r_service
 
 - name: Create kn Services
-  when: demo_channel_r_service is not defined
+  when: demo_channel_r_service.resources | length == 0
   block:
     - name: Log in as super user with token on OpenShift 4
       ansible.builtin.command: "oc login --token={{ token }} --server={{ server }} --insecure-skip-tls-verify={{ insecure_skip_tls_verify }}"
@@ -70,7 +70,6 @@
         - event-display-03
       register: my_output
       changed_when: my_output.rc != 0
-
 
 - name: Evaluate Subscriptions and Channel
   kubernetes.core.k8s:
