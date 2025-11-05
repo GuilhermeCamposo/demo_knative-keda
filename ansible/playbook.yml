@@ -50,10 +50,6 @@
       ansible.builtin.include_role:
         name: knative
 
-    # - name: Include keda-demo
-    #   ansible.builtin.include_role:
-    #     name: demo-keda
-
     - name: Include broker-demo
       ansible.builtin.include_role:
         name: demo-broker
