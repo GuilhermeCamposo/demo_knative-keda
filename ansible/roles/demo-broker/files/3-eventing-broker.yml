@@ -5,9 +5,6 @@ metadata:
     eventing.knative.dev/broker.class: Kafka
     kafka.eventing.knative.dev/external.topic: knative.kafka.broker.demo
   name: broker-demo
-  generation: 1
-  finalizers:
-    - brokers.eventing.knative.dev
   labels:
     app.kubernetes.io/part-of: broker-demo
 spec:

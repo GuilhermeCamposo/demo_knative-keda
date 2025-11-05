@@ -3,7 +3,7 @@ kind: KafkaNodePool
 metadata:
   name: dual-role
   labels:
-    strimzi.io/cluster: my-cluster
+    strimzi.io/cluster: {{ kafka_cluster_name }}
 spec:
   replicas: 3
   roles:
@@ -22,7 +22,7 @@ spec:
 apiVersion: kafka.strimzi.io/v1beta2
 kind: Kafka
 metadata:
-  name: {{ streams_kafka_cluster_name }}
+  name: {{ kafka_cluster_name }}
   annotations:
     strimzi.io/kraft: enabled
     strimzi.io/node-pools: enabled
@@ -30,8 +30,6 @@ spec:
   kafka:
     version: {{ kafka_version }}
     metadataVersion: "{{ kafka_kraft_version }}"
-    authorization:
-      type: simple
     listeners:
       - name: console
         port: 9092

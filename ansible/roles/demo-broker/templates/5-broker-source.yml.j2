@@ -2,6 +2,7 @@ apiVersion: sources.knative.dev/v1beta1
 kind: KafkaSource
 metadata:
   name: broker-source
+  namespace: {{ eventing_ns }}
   labels:
     app: broker-source
     app.kubernetes.io/component: broker-source
@@ -10,7 +11,7 @@ metadata:
     app.kubernetes.io/part-of: broker-demo
 spec:
   bootstrapServers:
-    - 'my-cluster-kafka-bootstrap.amq-streams.svc:9092'
+    - {{ kafka_cluster_name }}-kafka-bootstrap.{{ kafka_ns }}.svc:9092
   consumerGroup: knative-broker-group
   consumers: 1
   initialOffset: latest

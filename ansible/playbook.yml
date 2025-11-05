@@ -4,9 +4,10 @@
     delete_demo: false
     verify_tls: false
     insecure_skip_tls_verify: true
-    kafka_project: amq-streams
-    eventing_project: eventing-demo
-    functions_project: functions-demo
+    kafka_ns: amq-streams
+    eventing_ns: eventing-demo
+    functions_ns: functions-demo
+    kafka_cluster_name: my-cluster
   tasks:
     - name: Check Required Parameters
       ansible.builtin.fail:
@@ -25,9 +26,9 @@
 
     - name: Evaluate Namespaces
       loop:
-        - "{{ kafka_project }}"
-        - "{{ eventing_project }}"
-        - "{{ functions_project }}"
+        - "{{ kafka_ns }}"
+        - "{{ eventing_ns }}"
+        - "{{ functions_ns }}"
       kubernetes.core.k8s:
         api_key: '{{ token }}'
         host: '{{ server }}'
@@ -37,9 +38,9 @@
         name: '{{ item }}'
         state: present
 
-    - name: Include Tekton
-      ansible.builtin.include_role:
-        name: tekton
+    # - name: Include Tekton
+    #   ansible.builtin.include_role:
+    #     name: tekton
 
     - name: Include Kafka
       ansible.builtin.include_role:
@@ -49,14 +50,14 @@
       ansible.builtin.include_role:
         name: knative
 
-    - name: Include keda-demo
-      ansible.builtin.include_role:
-        name: demo-keda
+    # - name: Include keda-demo
+    #   ansible.builtin.include_role:
+    #     name: demo-keda
 
     - name: Include broker-demo
       ansible.builtin.include_role:
         name: demo-broker
 
-    - name: Include channel-demo
-      ansible.builtin.include_role:
-        name: demo-channel
+    # - name: Include channel-demo
+    #   ansible.builtin.include_role:
+    #     name: demo-channel

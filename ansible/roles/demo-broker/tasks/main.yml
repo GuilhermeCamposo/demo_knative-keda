@@ -8,21 +8,21 @@
     name: eventing-demo
     state: present
 
-- name: Evaluate Topics
+- name: Evaluate Sources
   kubernetes.core.k8s:
     api_key: '{{ token }}'
     host: '{{ server }}'
     validate_certs: '{{ verify_tls }}'
     state: present
-    resource_definition: "{{ lookup('file', item) }}"
-    namespace: amq-streams
+    resource_definition: "{{ lookup('template', item) }}"
   register: _serving
   retries: 1
   delay: 10
   until: not _serving.failed
   loop:
-    - 2.1-topic-broker.yml
-    - 2.2-topic-external.yaml
+    - 2.1-topic-broker.yml.j2
+    - 2.2-topic-external.yml.j2
+    - 5-broker-source.yml.j2
 
 - name: Log in as super user with token on OpenShift 4
   ansible.builtin.command: "oc login --token={{ token }}  --server={{ server }} --insecure-skip-tls-verify={{ insecure_skip_tls_verify }}"
@@ -34,15 +34,15 @@
   register: my_output
   changed_when: my_output.rc != 0
 
-- name: Create Services
-  ansible.builtin.command: |
-      kn service create {{ item }} --image quay.io/openshift-knative/knative-eventing-sources-event-display
-       --label app.kubernetes.io/part-of=broker-demo -n eventing-demo
-  loop:
-    - kafka-display
-    - ping-display
-  register: my_output
-  changed_when: my_output.rc != 0
+# - name: Create Services
+#   ansible.builtin.command: |
+#       kn service create {{ item }} --image quay.io/openshift-knative/knative-eventing-sources-event-display
+#        --label app.kubernetes.io/part-of=broker-demo -n eventing-demo
+#   loop:
+#     - kafka-display
+#     - ping-display
+#   register: my_output
+#   changed_when: my_output.rc != 0
 
 - name: Evaluate broker-demo Manisfests
   kubernetes.core.k8s:
@@ -51,13 +51,12 @@
     validate_certs: '{{ verify_tls }}'
     state: present
     resource_definition: "{{ lookup('file', item) }}"
-    namespace: eventing-demo
+    namespace: "{{ eventing_ns }}"
   register: _serving
   retries: 1
   delay: 10
   until: not _serving.failed
   loop:
     - 3-eventing-broker.yml
-    - kafkasource-trigger.yml
+    - kafka-source-trigger.yml
     - ping-trigger.yml
-    - 5-broker-source.yml

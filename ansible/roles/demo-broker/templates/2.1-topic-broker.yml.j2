@@ -2,8 +2,9 @@ apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
   labels:
-    strimzi.io/cluster: my-cluster
+    strimzi.io/cluster: {{ kafka_cluster_name }}
   name: eventing.broker.demo
+  namespace: {{ kafka_ns }}
 spec:
   config: {}
   partitions: 1
