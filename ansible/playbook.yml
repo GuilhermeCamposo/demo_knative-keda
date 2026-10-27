@@ -38,9 +38,9 @@
         name: '{{ item }}'
         state: present
 
-    # - name: Include Tekton
-    #   ansible.builtin.include_role:
-    #     name: tekton
+    - name: Include Tekton
+      ansible.builtin.include_role:
+        name: tekton
 
     - name: Include Kafka
       ansible.builtin.include_role:

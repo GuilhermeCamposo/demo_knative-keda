@@ -2,6 +2,11 @@
 
 Here you will find a demo script that can be executed as you present Knative features.
 
+== Dependencies
+
+*  link:https://github.com/rakyll/hey[hey] - HTTP load generator.
+
+
 == Serving 
 
 === Basic Serving
@@ -67,26 +72,28 @@ kn service create event-display1 \
 
 Ping Source, API Source, Kafka Source    
 
-    kn source ping create test-ping-source \
-        --schedule "*/1 * * * *" \
-        --data '{"message": "Welcome to Knative Eventing!"}' \
-        --sink ksvc:event-display
-
+----
+kn source ping create test-ping-source \
+    --schedule "*/1 * * * *" \
+    --data '{"message": "Welcome to Knative Eventing!"}' \
+    --sink ksvc:event-display
+----
 
 Please, refer to `eventing-demo` link:eventing-demo/README.adoc[instructions] for deep-dive with Channel and Broker eventing.
 
 == Functions 
 
-To deploy an example function:
+To deploy an example function, first clone the repository:
 
 ----
-oc login
-
-oc project functions-demo
-
 git clone https://github.com/GuilhermeCamposo/demo_quarkus-function.git
 
-cd demo_quarkus-fuction
+cd demo_quarkus-function
+----
+
+now deploy the function:
+----
+oc project functions-demo
 
 kn func deploy --remote
 ----
