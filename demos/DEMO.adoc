@@ -79,7 +79,7 @@ kn source ping create test-ping-source \
     --sink ksvc:event-display
 ----
 
-Please, refer to `eventing-demo` link:eventing-demo/README.adoc[instructions] for deep-dive with Channel and Broker eventing.
+Please, refer to `eventing-demo` link:eventing/README.adoc[instructions] for deep-dive with Channel and Broker eventing.
 
 == Functions 
 
@@ -121,4 +121,4 @@ kn func invoke
 
 === Knative with Keda
 
-Please, refer to `keda-demo` directory and follow link:keda-demo/README.adoc[instructions].
+Please, refer to `keda-demo` directory and follow link:keda/README.adoc[instructions].

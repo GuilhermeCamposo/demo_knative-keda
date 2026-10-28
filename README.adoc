@@ -30,4 +30,4 @@ ansible-playbook -e token=${token} -e server=${server} playbook.yml
 
 == Demo Script
 
-The demo script for the use cases can be found here: link:DEMO.adoc[DEMO.adoc].
+The demo script for the use cases can be found here: link:demos/DEMO.adoc[DEMO.adoc].

@@ -1,0 +1,11 @@
+schemaVersion: 2.2.2
+metadata:
+  name: knative-demo
+components:
+  - name: tools
+    container:
+      image: quay.io/devfile/universal-developer-image:ubi10-latest
+      memoryLimit: 4Gi
+      memoryRequest: 2Gi
+      cpuLimit: '2'
+      cpuRequest: '1'    

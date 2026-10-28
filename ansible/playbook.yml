@@ -57,3 +57,7 @@
     - name: Include channel-demo
       ansible.builtin.include_role:
         name: demo-channel
+
+    - name: Include devspaces
+      ansible.builtin.include_role:
+        name: devspaces
