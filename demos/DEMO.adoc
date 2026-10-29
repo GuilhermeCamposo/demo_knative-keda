@@ -2,30 +2,25 @@
 
 Here you will find a demo script that can be executed as you present Knative features.
 
-== Dependencies
-
-*  link:https://github.com/rakyll/hey[hey] - HTTP load generator.
-
 
 == Serving 
 
 === Basic Serving
 
+Create the service
 ----
 kn service create hello-knative --image="quay.io/naveenkendyala/quarkus-demo-quarkusjvm-hello:v1"
 
 kn service list
+----
 
+Call the service
+----
 export URL=$(kn service list | tail -1 | awk '{print $2}')/api/hello
 
-hey -c 50 -z 10s $URL
-
-kn service update hello-knative --concurrency-limit=10
-
-hey -c 50 -z 10s $URL
-
-oc get kpa
+curl $URL
 ----
+
 
 === Blue/Green Deployments
 
